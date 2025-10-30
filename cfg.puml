@@ -1,0 +1,65 @@
+@startuml
+title Control Flow Graph - check_credit_eligibility()
+
+start
+:0;
+:1; --> :2;
+
+if (age < 21) then (True)
+  :3 [return Not Eligible];
+  stop
+else (False)
+  :4;
+  if (credit_score >= 750 and income >= 5000) then (True)
+    :5 [return Eligible];
+    stop
+  else (False)
+    :6;
+    if (500 <= credit_score < 750) then (True)
+      :7;
+      if (income >= 3000 and (job_stability or has_collateral)) then (True)
+        :8;
+        if (debt < income * 0.3) then (True)
+          :9 [return Eligible];
+          stop
+        else (False)
+          :10;
+          if (0.3 <= (debt/income) <= 0.5) then (True)
+            :11 [return Review];
+            stop
+          else (False)
+            :12 [return Not Eligible];
+            stop
+          endif
+        endif
+      else (False)
+        :13 [return Not Eligible];
+        stop
+      endif
+    else (False)
+      :14;
+      if (credit_score < 500) then (True)
+        :15;
+        if (has_collateral and income >= 4000) then (True)
+          :16 [return Review];
+          stop
+        else (False)
+          :17;
+          if (job_stability and income >= 3500 and debt < 2000) then (True)
+            :18 [return Review];
+            stop
+          else (False)
+            :19 [return Not Eligible];
+            stop
+          endif
+        endif
+      else (False)
+        :20 [return Not Eligible];
+        stop
+      endif
+    endif
+  endif
+endif
+
+stop
+@enduml
